@@ -125,6 +125,20 @@ class LocalAuthDarwin extends LocalAuthPlatform {
   }
 
   @override
+  Future<List<BiometricType>> getHardwareBiometricCapabilities() async {
+    final List<AuthBiometric> result =
+        await _api.getHardwareBiometricCapabilities();
+    return result.map((AuthBiometric value) {
+      switch (value) {
+        case AuthBiometric.face:
+          return BiometricType.face;
+        case AuthBiometric.fingerprint:
+          return BiometricType.fingerprint;
+      }
+    }).toList();
+  }
+
+  @override
   Future<bool> isDeviceSupported() async => _api.isDeviceSupported();
 
   /// Always returns false as this method is not supported on iOS or macOS.

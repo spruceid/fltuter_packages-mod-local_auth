@@ -71,6 +71,14 @@ abstract class LocalAuthPlatform extends PlatformInterface {
     throw UnimplementedError('canCheckBiometrics() has not been implemented.');
   }
 
+  /// Returns the biometric capabilities the device's hardware has, regardless
+  /// of whether any biometrics are currently enrolled.
+  Future<List<BiometricType>> getHardwareBiometricCapabilities() async {
+    throw UnimplementedError(
+      'getHardwareBiometricCapabilities() has not been implemented.',
+    );
+  }
+
   /// Returns a list of enrolled biometrics.
   ///
   /// Possible values include:
@@ -103,6 +111,7 @@ abstract class LocalAuthPlatform extends PlatformInterface {
   /// Clear biometric checking variables
   Future<void> clearBiometricChecking() async {
     throw UnimplementedError(
-        'clearBiometricChecking() has not been implemented.');
+      'clearBiometricChecking() has not been implemented.',
+    );
   }
 }

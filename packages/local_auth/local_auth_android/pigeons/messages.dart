@@ -146,6 +146,10 @@ abstract class LocalAuthApi {
   /// biometrics can't be determined.
   List<AuthClassification>? getEnrolledBiometrics();
 
+  /// Returns the biometric strength classes the device's hardware supports,
+  /// whether or not any biometrics are currently enrolled.
+  List<AuthClassification> getHardwareBiometricCapabilities();
+
   /// Attempts to authenticate the user with the provided [options], and using
   /// [strings] for any UI.
   @async

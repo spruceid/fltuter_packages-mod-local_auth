@@ -188,6 +188,20 @@ public final class LocalAuthPlugin: NSObject, FlutterPlugin, LocalAuthApi, @unch
     return biometrics
   }
 
+  func getHardwareBiometricCapabilities() throws -> [AuthBiometric] {
+    let context = authContextFactory.createAuthContext()
+    var error: NSError?
+    _ = context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error)
+    switch context.biometryType {
+    case .faceID:
+      return [AuthBiometric.face]
+    case .touchID:
+      return [AuthBiometric.fingerprint]
+    default:
+      return []
+    }
+  }
+
   func isDeviceSupported() throws -> Bool {
     let context = authContextFactory.createAuthContext()
     return context.canEvaluatePolicy(.deviceOwnerAuthentication, error: nil)

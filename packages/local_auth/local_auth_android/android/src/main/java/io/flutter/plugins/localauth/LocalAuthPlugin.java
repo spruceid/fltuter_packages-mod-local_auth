@@ -80,6 +80,25 @@ public class LocalAuthPlugin implements FlutterPlugin, ActivityAware, LocalAuthA
     return biometrics;
   }
 
+  public @NonNull List<AuthClassification> getHardwareBiometricCapabilities() {
+    ArrayList<AuthClassification> biometrics = new ArrayList<>();
+    if (hasBiometricHardwareFor(BiometricManager.Authenticators.BIOMETRIC_WEAK)) {
+      biometrics.add(AuthClassification.WEAK);
+    }
+    if (hasBiometricHardwareFor(BiometricManager.Authenticators.BIOMETRIC_STRONG)) {
+      biometrics.add(AuthClassification.STRONG);
+    }
+    return biometrics;
+  }
+
+  // Whether the device physically has biometric hardware for the given
+  // authenticator class, regardless of whether anything is enrolled.
+  private boolean hasBiometricHardwareFor(int authenticators) {
+    if (biometricManager == null) return false;
+    return biometricManager.canAuthenticate(authenticators)
+    != BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE;
+  }
+
   public @NonNull Boolean stopAuthentication() {
     try {
       if (authHelper != null && authInProgress.get()) {

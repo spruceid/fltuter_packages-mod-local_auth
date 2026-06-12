@@ -96,6 +96,11 @@ class LocalAuthentication {
   Future<List<BiometricType>> getAvailableBiometrics() =>
       LocalAuthPlatform.instance.getEnrolledBiometrics();
 
+  /// Returns the biometric capabilities the device's hardware has, regardless
+  /// of whether any biometrics are currently enrolled.
+  Future<List<BiometricType>> getHardwareBiometricCapabilities() =>
+      LocalAuthPlatform.instance.getHardwareBiometricCapabilities();
+
   Future<void> clearBiometricChecking() =>
       LocalAuthPlatform.instance.clearBiometricChecking();
 }

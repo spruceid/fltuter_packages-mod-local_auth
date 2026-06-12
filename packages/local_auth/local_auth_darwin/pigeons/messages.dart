@@ -76,10 +76,11 @@ enum AuthResult {
 }
 
 class AuthOptions {
-  AuthOptions(
-      {required this.biometricOnly,
-      required this.sticky,
-      this.checkBiometricInvalidationForKey = false});
+  AuthOptions({
+    required this.biometricOnly,
+    required this.sticky,
+    this.checkBiometricInvalidationForKey = false,
+  });
   final bool biometricOnly;
   final bool sticky;
   final bool checkBiometricInvalidationForKey;
@@ -117,6 +118,10 @@ abstract class LocalAuthApi {
   /// Returns the biometric types that are enrolled, and can thus be used
   /// without additional setup.
   List<AuthBiometric> getEnrolledBiometrics();
+
+  /// Returns the biometric modalities the device's hardware has, whether or not
+  /// any biometrics are currently enrolled.
+  List<AuthBiometric> getHardwareBiometricCapabilities();
 
   /// Attempts to authenticate the user with the provided [options], and using
   /// [strings] for any UI.

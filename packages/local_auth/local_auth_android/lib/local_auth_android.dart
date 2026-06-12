@@ -150,6 +150,20 @@ class LocalAuthAndroid extends LocalAuthPlatform {
   }
 
   @override
+  Future<List<BiometricType>> getHardwareBiometricCapabilities() async {
+    final List<AuthClassification> result =
+        await _api.getHardwareBiometricCapabilities();
+    return result.map((AuthClassification value) {
+      switch (value) {
+        case AuthClassification.weak:
+          return BiometricType.weak;
+        case AuthClassification.strong:
+          return BiometricType.strong;
+      }
+    }).toList();
+  }
+
+  @override
   Future<bool> isDeviceSupported() async => _api.isDeviceSupported();
 
   @override
