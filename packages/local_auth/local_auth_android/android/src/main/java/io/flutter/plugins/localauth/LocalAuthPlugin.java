@@ -53,6 +53,13 @@ public class LocalAuthPlugin implements FlutterPlugin, ActivityAware, LocalAuthA
   private KeyguardManager keyguardManager;
 
   /**
+   * Undocumented return value denoting that the user has disabled biometrics for apps/this app,
+   * but that they are otherwise enabled systemwide.
+   * API 35+
+   */
+  private static final int BIOMETRIC_ERROR_NOT_ENABLED_FOR_APPS = 21;
+
+  /**
      * Default constructor for LocalAuthPlugin.
      *
      * <p>Use this constructor when adding this plugin to an app with v2 embedding.
@@ -145,6 +152,17 @@ public class LocalAuthPlugin implements FlutterPlugin, ActivityAware, LocalAuthA
 
     if (!isDeviceSupported()) {
       result.success(new AuthResult.Builder().setCode(AuthResultCode.NO_CREDENTIALS).build());
+      return;
+    }
+
+    // If we progress further, this error gets turned into an unknown error.
+    // If we early-exit here in this case that'll fail anyway, we get a richer error.
+    if (options.getBiometricOnly()
+        && biometricManager != null
+        && biometricManager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_STRONG)
+            == BIOMETRIC_ERROR_NOT_ENABLED_FOR_APPS) {
+      result.success(
+          new AuthResult.Builder().setCode(AuthResultCode.HARDWARE_UNAVAILABLE).build());
       return;
     }
 

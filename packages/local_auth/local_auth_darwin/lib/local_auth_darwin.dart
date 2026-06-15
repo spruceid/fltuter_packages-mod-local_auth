@@ -85,12 +85,14 @@ class LocalAuthDarwin extends LocalAuthPlatform {
       case AuthResult.biometryNotPaired:
         code = LocalAuthExceptionCode.noBiometricHardware;
       case AuthResult.biometryNotEnrolled:
+      case AuthResult.errorNotEnrolled:
         code = LocalAuthExceptionCode.noBiometricsEnrolled;
       case AuthResult.invalidContext:
       case AuthResult.invalidDimensions:
       case AuthResult.notInteractive:
         code = LocalAuthExceptionCode.uiUnavailable;
       case AuthResult.passcodeNotSet:
+      case AuthResult.errorPasscodeNotSet:
         code = LocalAuthExceptionCode.noCredentialsSet;
       case AuthResult.userFallback:
         code = LocalAuthExceptionCode.userRequestedFallback;
